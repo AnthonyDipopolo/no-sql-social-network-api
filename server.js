@@ -9,12 +9,11 @@ const db = require('./db/connection');
 app.use(express.json()); //opens the channel so req.body can recieve information
 
 //Routes
-const planet_routes = require('./routes/planet_routes');
-const like_routes = require('./routes/like_routes');
+const thought_routes = require('./routes/thought_routes');
 const user_routes = require('./routes/user_routes');
 
 
-app.use('/api', [planet_routes, like_routes, user_routes]) //presets all the routes with api
+app.use('/api', [thought_routes, user_routes]) //presets all the routes with api
 
 db.once('open', () => {
     app.listen(PORT, () => {

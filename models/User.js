@@ -14,7 +14,7 @@ const userSchema = new Schema({
         match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ // Regular expression to validate an email address
 
     },
-    thoughtss: [{
+    thoughts: [{
         type: Types.ObjectId,
         ref: 'Thought' //reference to thought model to create connection
     }],
