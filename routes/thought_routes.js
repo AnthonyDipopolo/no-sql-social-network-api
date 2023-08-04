@@ -1,13 +1,11 @@
+// Import necessary modules and models
 const router = require('express').Router();
-const { Thought } = require('../models');
-const { User }  = require('../models');
-const { Reaction } = require('../models');
+const { Thought, User, Reaction } = require('../models');
 
-//Get all thoughts
+// Get all thoughts
 router.get('/thoughts', async (req, res) => {
     const thoughts = await Thought.find({});
     res.json(thoughts);
-// console.log(thoughts);
 });
 
 // Create a thought
@@ -30,7 +28,6 @@ router.post('/thought', async (req, res) => {
     }
 });
 
-
 // Get a single thought by its ID
 router.get('/thought/:id', async (req, res) => {
     try {
@@ -46,8 +43,7 @@ router.get('/thought/:id', async (req, res) => {
     }
 });
 
-
-// Update a thought by it's id
+// Update a thought by its id
 router.put('/thought/:id', async (req, res) => {
     const { thoughtText, username } = req.body;
 
@@ -68,7 +64,7 @@ router.put('/thought/:id', async (req, res) => {
     }
 });
 
-// Delete a thought by it's id
+// Delete a thought by its id
 router.delete('/thought/:id', async (req, res) => {
     try {
         const deletedThought = await Thought.findByIdAndRemove(req.params.id);
@@ -119,7 +115,7 @@ router.post('/thoughts/:thoughtId/reactions', async (req, res) => {
     }
 });
 
-// Delete a reaction by it's reactionId value
+// Delete a reaction by its reactionId value
 router.delete('/thoughts/:thoughtId/reactions/:reactionId', async (req, res) => {
     const { thoughtId, reactionId } = req.params;
 
@@ -157,6 +153,5 @@ router.delete('/thoughts/:thoughtId/reactions/:reactionId', async (req, res) => 
     }
 });
 
-
-
+// Export the router
 module.exports = router;

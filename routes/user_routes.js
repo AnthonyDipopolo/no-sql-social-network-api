@@ -1,23 +1,22 @@
+// Import necessary modules and models
 const router = require('express').Router();
 const { User } = require('../models');
 
-//create new user
+// Create a new user
 router.post('/register', async (req, res) => {
-    try {  
+    try {
         const user = await User.create(req.body);
 
         res.json(user);
-
     } catch (err) {
         console.log(err);
         res.status(401).send({
             message: err.message
         });
     }
-
 });
 
-//get all users
+// Get all users
 router.get('/users', async (req, res) => {
     try {
         const users = await User.find({});
@@ -29,23 +28,22 @@ router.get('/users', async (req, res) => {
     }
 });
 
-
-//find a single user by id
+// Find a single user by ID
 router.get('/user/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
-            .populate({
+            .populate({  // Populate the 'thoughts' field of the found user with its corresponding thoughts
                 path: 'thoughts',
-                populate: {
+                populate: {  // The `populate()` method is used again to replace the 'Reaction' references with the actual reaction documents
                     path: 'reactions',
                     model: 'Reaction'
                 }
             })
-            .populate('friends'); //populate friends
+            .populate('friends'); // Populate friends
 
         if (!user) throw new Error('No user found with that ID');
 
-        res.json(user); //send the new user object
+        res.json(user); // Send the new user object
 
     } catch (err) {
         res.status(401).send({
@@ -54,24 +52,23 @@ router.get('/user/:id', async (req, res) => {
     }
 });
 
-
-//update a users username and email by id
+// Update a user's username and email by ID
 router.put('/user/:id', async (req, res) => {
-    const { username, email} = req.body;
+    const { username, email } = req.body;
 
     const user = await User.findByIdAndUpdate(req.params.id, {
         $set: {
             username: username,
             email: email
         }
-    }, {new: true});
+    }, { new: true });
 
     if (!user) throw new Error('No user found with that ID');
 
     res.json(user);
 });
 
-//delete a user by id
+// Delete a user by ID
 router.delete('/user/delete/:id', async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.id);
 
@@ -142,4 +139,5 @@ router.delete('/users/:userId/friends/:friendId', async (req, res) => {
     }
 });
 
+// Export the router
 module.exports = router;
