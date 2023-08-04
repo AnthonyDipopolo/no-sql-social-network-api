@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const { Thought } = require('../models');
+const { User }  = require('../models');
+const { Reaction } = require('../models');
 
 //Get all thoughts
 router.get('/thoughts', async (req, res) => {
@@ -29,14 +31,21 @@ router.post('/thought', async (req, res) => {
 });
 
 
-//get a single thought by it's id
-router.get('/thought/:id', async (req, res)=> {
-    const thought = await Thought.findOne(req.params.id);
+// Get a single thought by its ID
+router.get('/thought/:id', async (req, res) => {
+    try {
+        const thought = await Thought.findById(req.params.id);
 
-    if (thought) return res.json(thought); //use return to avoid the else
-
-    res.json({message:'Thought Not Found'});
+        if (thought) {
+            return res.json(thought);
+        } else {
+            res.json({ message: 'Thought Not Found' });
+        }
+    } catch (err) {
+        res.status(500).send({ message: 'Server Error' });
+    }
 });
+
 
 // Update a thought by it's id
 router.put('/thought/:id', async (req, res) => {

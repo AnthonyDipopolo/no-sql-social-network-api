@@ -16,15 +16,6 @@ const reactionSchema = new Schema({
     }
 }, {
     timestamps: true, // creates createdAt and updatedAt fields in the schema
-
-    virtuals: {
-        createdAt: {
-            get() { //this is a get method on createdAt to format the date
-                const formattedDate = this.createdAt.toLocaleString();
-                return formattedDate;
-            }
-        }
-    }
 });
 
 const Reaction = model('Reaction', reactionSchema);

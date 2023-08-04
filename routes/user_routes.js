@@ -34,7 +34,13 @@ router.get('/users', async (req, res) => {
 router.get('/user/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
-            .populate('thoughts') //populate thoughts
+            .populate({
+                path: 'thoughts',
+                populate: {
+                    path: 'reactions',
+                    model: 'Reaction'
+                }
+            })
             .populate('friends'); //populate friends
 
         if (!user) throw new Error('No user found with that ID');

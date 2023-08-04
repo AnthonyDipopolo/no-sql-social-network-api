@@ -18,15 +18,11 @@ const thoughtSchema = new Schema({
         }
     ]
 }, {
-    timestamps: true, // creates createdAt and updatedAt fields in the schema.
+    timestamps: true, // creates createdAt and updatedAt fields in the schema
+
+    toJSON: { virtuals: true },
 
     virtuals: {
-        createdAt: {
-            get() { //this is a get method on createdAt to formate the date
-                const formattedDate = this.createdAt.toLocaleString();
-                return formattedDate;
-            }
-        },
         reactionsCount: {
             get() { //this is a get method on the reactionsCount object
                 return this.reactions.length

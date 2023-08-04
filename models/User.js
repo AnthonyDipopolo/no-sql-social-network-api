@@ -23,6 +23,8 @@ const userSchema = new Schema({
         ref: 'User' //reference to user model to create self-connection
     }]
 }, {
+    toJSON: { virtuals: true },
+    
     virtuals: {
         friendCount: {
             get() { //this is a get method on the friendCount object
